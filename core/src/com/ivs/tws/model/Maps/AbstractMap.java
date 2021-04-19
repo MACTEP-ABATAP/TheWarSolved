@@ -1,6 +1,7 @@
 package com.ivs.tws.model.Maps;
 
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapLayers;
@@ -18,6 +19,8 @@ public class AbstractMap extends Map {
     public static final int TILES_PER_LAYER = WIDTH * HEIGHT;
     public static final int TILE_WIDTH = 64;
     public static final int TILE_HEIGHT = 64;
+
+
 
     public static final int TILE_HEIGHT_DIAMOND = 32;
     private int BOUND_X = HEIGHT * TILE_WIDTH / 2 + WIDTH * TILE_WIDTH / 2;
@@ -39,13 +42,14 @@ public class AbstractMap extends Map {
 
             int colX = HEIGHT * TILE_WIDTH / 2 - TILE_WIDTH / 2;
             int colY = BOUND_Y - TILE_HEIGHT_DIAMOND;
-            for (int y = 0; x < WIDTH; x++) {
+            for (int x = 0; x < WIDTH; x++) { // у или х ?
 
 
                 for (int y = 0; y < HEIGHT; y++) {
                     int tileX = colX - y * TILE_WIDTH / 2;
                     int tileY = colY - y * TILE_HEIGHT_DIAMOND / 2;
-                    cache.add(texture, tileX, tileY, rand.nextInt(2) * 64, TILE_WIDTH, TILE_HEIGHT);
+                    cache.add(texture, tileX, tileY, rand.nextInt(2) * 64, // что за текстура?
+                              TILE_WIDTH, TILE_HEIGHT);
                 }
                 colX += TILE_WIDTH / 2;
                 colY -= TILE_HEIGHT_DIAMOND / 2;
