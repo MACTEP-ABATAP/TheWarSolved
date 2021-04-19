@@ -12,10 +12,7 @@ public class AbstractObject extends Actor {
 
     public static float SIZE;
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-    }
+
 
 
 }

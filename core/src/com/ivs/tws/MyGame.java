@@ -25,7 +25,5 @@ public class MyGame extends ApplicationAdapter {
 
 	}
 
-	public int intValue() {
-		return 0;
-	}
+
 }
