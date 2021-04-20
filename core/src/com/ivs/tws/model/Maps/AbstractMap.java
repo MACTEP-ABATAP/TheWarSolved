@@ -11,7 +11,7 @@ import java.util.Random;
 import static com.sun.corba.se.impl.util.RepositoryId.cache;
 
 public class AbstractMap extends TiledMap {
-    private final int LAYERS = 1;
+    public int LAYERS;
     public int WIDTH;
     public int HEIGHT;
     public int TILES_PER_LAYER = WIDTH * HEIGHT;
