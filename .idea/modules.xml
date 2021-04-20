@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TheWarSolved.iml" filepath="$PROJECT_DIR$/.idea/modules/TheWarSolved.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android/TheWarSolved.android.iml" filepath="$PROJECT_DIR$/.idea/modules/android/TheWarSolved.android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/TheWarSolved.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/TheWarSolved.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mysamsunggame.iml" filepath="$PROJECT_DIR$/.idea/modules/mysamsunggame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android/mysamsunggame.android.iml" filepath="$PROJECT_DIR$/.idea/modules/android/mysamsunggame.android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/mysamsunggame.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/mysamsunggame.core.iml" />
     </modules>
   </component>
 </project>
