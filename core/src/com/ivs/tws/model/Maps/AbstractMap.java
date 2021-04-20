@@ -48,7 +48,7 @@ public class AbstractMap extends Map {
                 for (int y = 0; y < HEIGHT; y++) {
                     int tileX = colX - y * TILE_WIDTH / 2;
                     int tileY = colY - y * TILE_HEIGHT_DIAMOND / 2;
-                    cache.add(texture, tileX, tileY, rand.nextInt(2) * 64, // что за текстура?
+                    cache.add(texture, tileX, tileY, rand.nextInt(2) * 64, // что тут?
                               TILE_WIDTH, TILE_HEIGHT);
                 }
                 colX += TILE_WIDTH / 2;
