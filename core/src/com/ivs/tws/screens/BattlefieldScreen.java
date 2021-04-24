@@ -29,7 +29,7 @@ public class BattlefieldScreen extends AbstractScreen {
     public static float StageHeight;
     private int defaultHeight;
 
-    private List<ArrayList<MapTile>> mapTiles;
+    private Map<Integer, MapTile> mapTiles;
     private Map<Integer, Texture> mapTextures;
     private Map<Integer, MapTile> tiles;
     private MapPoint = new MapPoint();
@@ -57,13 +57,13 @@ public class BattlefieldScreen extends AbstractScreen {
 
         Gdx.input.setInputProcessor(input);
 
-        //this.mapTextures = this.loadTextures();
+        this.mapTextures = this.loadTexture();
 
-        //Texture defaultTile = this.mapTextures();
-        //this.defaultHeight = defaultTile.getHeight();
-        //this.mapTiles = this.createTileSet();
+        Texture defaultTile = this.mapTextures();
+        this.defaultHeight = defaultTile.getHeight();
+        this.mapTiles = this.createTileSet();
 
-        //this.tiles = this.createTiles()
+        this.tiles = this.createTiles();
     }
 
     private Map<Integer, Texture> loadTexture() {
