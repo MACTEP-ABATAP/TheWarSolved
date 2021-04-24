@@ -23,60 +23,17 @@ public class AbstractMap extends Map {
     public int MapX = 0;
     public int MapY = 0;
 
-    public int getTileWidth() {
-        return TileWidth;
-    }
+    public int TileWidthHalf = TileWidth / 2;
+    public int TileHeightHalf = TileHeight / 2;
 
-    public void setTileWidth(int tileWidth) {
-        TileWidth = tileWidth;
-    }
-
-
-    public int getTileHeight() {
-        return TileHeight;
-    }
-
-    public void setTileHeight(int tileHeight) {
-        TileHeight = tileHeight;
-    }
+    public MapLayers layers = new MapLayers();
+    public MapProperties properties = new MapProperties();
 
 
 
-    public short getNumberOfTilesY() {
-        return NumberOfTilesY;
-    }
-
-    public void setNumberOfTilesY(short numberOfTilesY) {
-        NumberOfTilesY = numberOfTilesY;
-    }
 
 
 
-    public int getMapX() {
-        return MapX;
-    }
-
-    public void setMapX(int mapX) {
-        MapX = mapX;
-    }
-
-    public int getMapY() {
-        return MapY;
-    }
-
-    public void setMapY(int mapY) {
-        MapY = mapY;
-    }
-
-
-
-    public short getNumberOfTilesX() {
-        return NumberOfTilesX;
-    }
-
-    public void setNumberOfTilesX(short numberOfTilesX) {
-        NumberOfTilesX = numberOfTilesX;
-    }
 
     @Override
     public MapLayers getLayers() {
