@@ -1,4 +1,4 @@
-package com.ivs.tws.model.Maps.Maputil;
+package com.ivs.tws.Maps.Maputil;
 
 import java.util.Random;
 

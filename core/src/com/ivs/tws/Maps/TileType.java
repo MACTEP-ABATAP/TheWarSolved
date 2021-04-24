@@ -1,4 +1,4 @@
-package com.ivs.tws.model.Maps;
+package com.ivs.tws.Maps;
 
 public enum TileType {
 

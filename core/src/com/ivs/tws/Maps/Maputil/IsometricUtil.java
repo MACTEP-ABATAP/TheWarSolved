@@ -1,10 +1,9 @@
-package com.ivs.tws.model.Maps.Maputil;
+package com.ivs.tws.Maps.Maputil;
 
 public class IsometricUtil {
 
     public static TilePoint isoTo2D (TilePoint point) {
-        //gx=(2*isoy+isox)/2;
-        //gy=(2*isoy-isox)/2
+
         TilePoint newPoint = new TilePoint(0, 0);
         newPoint.x = (2 * point.y + point.x) / 2;
         newPoint.y = (2 * point.y - point.x) / 2;
@@ -12,9 +11,8 @@ public class IsometricUtil {
     }
 
     public static TilePoint twoDToIso (TilePoint point) {
-        //gx=(isox-isoxy;
-        //gy=(isoy+isox)/2
-        Point newPoint = new TilePoint(0, 0);
+
+        TilePoint newPoint = new TilePoint(0, 0);
         newPoint.x=point.x-point.y;
         newPoint.y=(point.x+point.y)/2;
         return(newPoint);

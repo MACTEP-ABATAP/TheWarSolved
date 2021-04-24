@@ -2,7 +2,6 @@ package com.ivs.tws.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,11 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.ivs.tws.model.Maps.MapTile;
-import com.ivs.tws.model.Maps.Maputil.IsometricUtil;
-import com.ivs.tws.model.Maps.TileType;
+import com.ivs.tws.Maps.MapTile;
+import com.ivs.tws.Maps.TileType;
 import com.ivs.tws.screens.ScreenUtil.AbstractScreen;
 
 import java.util.ArrayList;
@@ -42,6 +39,9 @@ public class BattlefieldScreen extends AbstractScreen {
 
     public OrthographicCamera camera;
     public InputMultiplexer input = new InputMultiplexer();
+    private double currentTime = 0;
+    private double timeFromLastUpdate = 0;
+    private double timeBetweenUpdates = 1000;
 
 
     @Override
@@ -85,10 +85,10 @@ public class BattlefieldScreen extends AbstractScreen {
 
     private List<ArrayList<MapTile>> createWorldTiles(int[][] mapTileData){
         List<ArrayList<MapTile>> isoTiles = new ArrayList<ArrayList<MapTile>>();
-        for (int i = this.mainGame.world.levelData.length - 1; i >= 0 ; i--) {
+        for (int x = this.Maps.Map.levelData.length - 1; x >= 0 ; x--) {
             ArrayList<MapTile> row = new ArrayList<MapTile>();
-            for (int j = this.mainGame.world.levelData[i].length - 1; j >= 0; j--) {
-                int tileType = this.mainGame.world.levelData[i][j];
+            for (int y = this.Maps.Map.levelData[x].length - 1; y >= 0; y--) {
+                int tileType = this.Maps.Map.levelData[x][y];
                 row.add(this.tiles.get(tileType));
             }
             isoTiles.add(row);
@@ -123,14 +123,13 @@ public class BattlefieldScreen extends AbstractScreen {
                 int count = 0;
                 for (int h = 0; h < tile.textures.size(); h++) {
 
-                    //clipping for visiblity of tiles behind tall tiles
-                    if (this.clippingEnabled) {
-                        if (count > 0) {
-                            break;
-                        } else {
-                            count++;
-                        }
+
+                    if (count > 0) {
+                        break;
+                    } else {
+                        count++;
                     }
+
 
                     TextureRegion textureRegion = tile.textures.get(h);
                     batch.draw(textureRegion,
@@ -147,19 +146,19 @@ public class BattlefieldScreen extends AbstractScreen {
         double newTime = TimeUtils.millis();
         double timeElapsed = newTime - this.currentTime;
         this.currentTime = newTime;
-        this.timeSinceLastUpdate += timeElapsed;
+        this.timeFromLastUpdate += timeElapsed;
 
-        if (this.timeSinceLastUpdate > this.timeBetweenUpdates) {
-            this.timeSinceLastUpdate = 0;
-            this.mainGame.world.updateWorld();
+        if (this.timeFromLastUpdate > this.timeBetweenUpdates) {
+            this.timeFromLastUpdate = 0;
+            this.Maps.Map.updateWorld();
         }
     }
 
     private void updateWorld(List<ArrayList<MapTile>> world) {
-        for (int x = this.mainGame.world.levelData.length - 1; x >= 0 ; x--) {
+        for (int x = this.Maps.Map.levelData.length - 1; x >= 0 ; x--) {
             ArrayList<MapTile> row = world.get(x);
-            for (int y = this.mainGame.world.levelData[x].length - 1; y >= 0; y--) {
-                int tileType = this.mainGame.world.levelData[x][y];
+            for (int y = this.Maps.Map.levelData[x].length - 1; y >= 0; y--) {
+                int tileType = this.Maps.Map.levelData[x][y];
                 MapTile currentTile = row.get(y);
                 if (currentTile.getTileType() != tileType) {
                     row.set(y, this.tiles.get(tileType));

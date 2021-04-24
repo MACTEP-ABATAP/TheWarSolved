@@ -1,16 +1,9 @@
-package com.ivs.tws.model.Maps;
+package com.ivs.tws.Maps;
 
 
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.utils.TimeUtils;
-
-
-import java.util.Random;
-
-import static com.sun.corba.se.impl.util.RepositoryId.cache;
 
 public class AbstractMap extends Map {
 

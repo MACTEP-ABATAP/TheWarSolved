@@ -1,4 +1,4 @@
-package com.ivs.tws.model.Maps;
+package com.ivs.tws.Maps;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
