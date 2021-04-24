@@ -1,6 +1,5 @@
 package com.ivs.tws.screens.ScreenUtil;
 
-import com.ivs.tws.screens.BattlefieldScreen;
 import com.ivs.tws.screens.LevelSelectScreen;
 import com.ivs.tws.screens.MainMenuScreen;
 

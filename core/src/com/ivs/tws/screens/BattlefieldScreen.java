@@ -1,96 +1,180 @@
 package com.ivs.tws.screens;
 
-
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.ivs.tws.MyGame;
-import com.ivs.tws.model.Maps.AbstractMap;
+import com.ivs.tws.model.Maps.MapTile;
+import com.ivs.tws.model.Maps.Maputil.IsometricUtil;
+import com.ivs.tws.model.Maps.TileType;
 import com.ivs.tws.screens.ScreenUtil.AbstractScreen;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
 
 public class BattlefieldScreen extends AbstractScreen {
 
 
 
+    public static float StageWidth;
+    public static float StageHeight;
+    private int defaultHeight;
 
-    public InputMultiplexer inputHandler = new InputMultiplexer();
-
-    public OrthographicCamera camera;
-    public Stage stage;
+    private List<ArrayList<MapTile>> mapTiles;
+    private Map<Integer, Texture> mapTextures;
+    private Map<Integer, MapTile> tiles;
+    private MapPoint = new MapPoint();
     public SpriteBatch batch;
 
-    private int defaultHeight;
-    private boolean clippingEnabled = false;
+    public Stage battlefield;
 
-    public AbstractMap battlefield = new AbstractMap();
-
-//    private List<ArrayList<IsoTile>> worldTiles;
-//    private Map<Integer, Texture> allTextures;
-//    private Map<Integer, IsoTile> allTiles;
+    public OrthographicCamera camera;
+    public InputMultiplexer input = new InputMultiplexer();
 
 
-    private double currentTime = 0;
-    private double timeSinceLastUpdate = 0;
-    private double timeBetweenUpdates = 1000;
+    @Override
+    public void create() {
+        BattlefieldScreen.StageWidth = 1400;
+        BattlefieldScreen.StageHeight = 800;
 
+        camera = new OrthographicCamera(StageWidth, StageHeight);
+        camera.setToOrtho(false, StageWidth, StageHeight);
+        batch = new SpriteBatch();
+        battlefield = new Stage(new StretchViewport(StageWidth, StageHeight, camera), batch);
+        input.addProcessor(battlefield);
 
-    private Map Map;
-    private Touchpad touchpad;
+        Gdx.input.setInputProcessor(input);
 
-    public BattlefieldScreen(Integer param) {
+        //this.mapTextures = this.loadTextures();
 
+        //Texture defaultTile = this.mapTextures();
+        //this.defaultHeight = defaultTile.getHeight();
+        //this.mapTiles = this.createTileSet();
+
+        //this.tiles = this.createTiles()
     }
 
+    private Map<Integer, Texture> loadTexture() {
+        Map<Integer, Texture> texture = new HashMap<Integer, Texture>();
+        for (TileType type : TileType.values()) {
+            Texture texture1 = new Texture(type.fileName());
+            texture.put(type.id(), texture1);
+        }
+        return texture;
+    }
 
-    public void createUI (){
+    private Map<Integer, MapTile> createTileSet() {
+        Map<Integer, MapTile> tileSet = new HashMap<Integer, MapTile>();
+        for (TileType type : TileType.values()) {
+            tileSet.put(type.id(), new MapTile(this.mapTextures.get(type.id()), type.id(), this.defaultHeight));
+        }
+        return tileSet;
+    }
 
+    private List<ArrayList<MapTile>> createWorldTiles(int[][] mapTileData){
+        List<ArrayList<MapTile>> isoTiles = new ArrayList<ArrayList<MapTile>>();
+        for (int i = this.mainGame.world.levelData.length - 1; i >= 0 ; i--) {
+            ArrayList<MapTile> row = new ArrayList<MapTile>();
+            for (int j = this.mainGame.world.levelData[i].length - 1; j >= 0; j--) {
+                int tileType = this.mainGame.world.levelData[i][j];
+                row.add(this.tiles.get(tileType));
+            }
+            isoTiles.add(row);
+        }
+        return isoTiles;
     }
     @Override
-    public void create(){
+    public void render(){
+        Gdx.gl.glClearColor(0.2f, 0.5f, 0.8f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+        battlefield.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        battlefield.draw();
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        super.render();
+
+        this.updateWorld(this.mapTiles);
+
+        int scaleReducer = 12;
+        float gapReducer = 0.78f; //smaller is a smaller gap
+        for (int x = this.mapTiles.size() - 1; x >= 0; x--) {
+            List<MapTile> row = this.mapTiles.get(x);
+            for (int y = row.size() - 1; y >= 0; y--) {
+                MapTile tile = row.get(y);
+                point.set((int)(x * this.defaultHeight * gapReducer / scaleReducer),
+                        (int)(y * this.defaultHeight * gapReducer / scaleReducer));
+                point.convertTwoDToIso();
 
 
+                int count = 0;
+                for (int h = 0; h < tile.textures.size(); h++) {
 
+                    //clipping for visiblity of tiles behind tall tiles
+                    if (this.clippingEnabled) {
+                        if (count > 0) {
+                            break;
+                        } else {
+                            count++;
+                        }
+                    }
 
-//    //Current level
-//    private int level;
+                    TextureRegion textureRegion = tile.textures.get(h);
+                    batch.draw(textureRegion,
+                            point.x,
+                            point.y + h * this.defaultHeight / scaleReducer,
+                            textureRegion.getRegionWidth() / scaleReducer,
+                            textureRegion.getRegionHeight() / scaleReducer);;
+                }
+            }
+        }
 
+        this.batch.end();
 
+        double newTime = TimeUtils.millis();
+        double timeElapsed = newTime - this.currentTime;
+        this.currentTime = newTime;
+        this.timeSinceLastUpdate += timeElapsed;
 
+        if (this.timeSinceLastUpdate > this.timeBetweenUpdates) {
+            this.timeSinceLastUpdate = 0;
+            this.mainGame.world.updateWorld();
+        }
+    }
 
-//    public BattlefieldScreen(Integer level) {
-//        super();
-//        this.level = level;
-//
-//    }
-//
-//    @Override
-//    public void buildStage() {
-//        // Adding actors
-//
-//
-//
-//
-//
-//
-//    }
-//
-//    @Override
-//    public void dispose() {
-//
-//    }
+    private void updateWorld(List<ArrayList<MapTile>> world) {
+        for (int x = this.mainGame.world.levelData.length - 1; x >= 0 ; x--) {
+            ArrayList<MapTile> row = world.get(x);
+            for (int y = this.mainGame.world.levelData[x].length - 1; y >= 0; y--) {
+                int tileType = this.mainGame.world.levelData[x][y];
+                MapTile currentTile = row.get(y);
+                if (currentTile.getTileType() != tileType) {
+                    row.set(y, this.tiles.get(tileType));
+                }
+            }
+        }
     }
 
     @Override
     public void buildStage() {
+
+    }
+
+    @Override
+    public void dispose(){
 
     }
 }
