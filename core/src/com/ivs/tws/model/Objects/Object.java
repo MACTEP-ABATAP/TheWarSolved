@@ -1,8 +1,10 @@
 package com.ivs.tws.model.Objects;
 
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 import java.util.Objects;
 
@@ -17,36 +19,20 @@ public class Object extends AbstractObject {
 
 
 
-    //size
 
 
 
 
     //velocity of moving
-    public static float SPEED = 2f;
 
 
-    //Position on world
-    Vector2 position = new Vector2();
-    //Calculating velocity
-    Vector2 velocity = new Vector2();
-    //Object rectangle for collision
+
+
 
     //current state
     Object.State state = State.NONE;
 
-    public Object(Vector2 pos){
-        this.position = pos;
 
-    }
-
-
-
-
-
-    public Vector2 getPosition() {
-        return position;
-    }
 
 
 

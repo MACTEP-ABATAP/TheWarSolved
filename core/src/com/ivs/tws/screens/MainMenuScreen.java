@@ -24,6 +24,11 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     @Override
+    public void create() {
+
+    }
+
+    @Override
     public void buildStage() {
 
         // Adding actors
