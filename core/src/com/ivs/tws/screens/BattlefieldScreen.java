@@ -140,8 +140,8 @@ public class BattlefieldScreen extends AbstractScreen {
 
                     TextureRegion textureRegion = tile.textures.get(h);
                     batch.draw(textureRegion,
-                    ScreenPoint.x,
-                    ScreenPoint.y + h * this.defaultHeight / scaleReducer,
+                    ScreenPoint.OrthoToIso(screenPoint).ScreenX,
+                    ScreenPoint.OrthoToIso(screenPoint).ScreenY + h * this.defaultHeight / scaleReducer,
                     textureRegion.getRegionWidth() / scaleReducer,
                     textureRegion.getRegionHeight() / scaleReducer);;
                 }
@@ -184,6 +184,11 @@ public class BattlefieldScreen extends AbstractScreen {
     @Override
     protected Map<Integer, MapTile> createTiles() {
         return null;
+    }
+
+    @Override
+    public void render(float delta) {
+
     }
 
     @Override

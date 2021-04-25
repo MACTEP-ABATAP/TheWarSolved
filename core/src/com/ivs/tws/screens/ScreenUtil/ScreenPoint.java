@@ -8,6 +8,9 @@ import java.awt.Point;
 
 public class ScreenPoint extends Point {
 
+    public int ScreenX = x;
+    public int ScreenY = y;
+
     @Override
     public Point getLocation() {
         return super.getLocation();
@@ -43,8 +46,7 @@ public class ScreenPoint extends Point {
     }
 
     public static ScreenPoint OrthoToIso (ScreenPoint point) {
-        //gx=(isox-isoxy;
-        //gy=(isoy+isox)/2
+
         ScreenPoint newPoint = new ScreenPoint(0, 0);
         newPoint.x=point.x-point.y;
         newPoint.y=(point.x+point.y)/2;

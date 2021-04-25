@@ -19,19 +19,12 @@ public abstract class AbstractScreen extends Stage implements Screen {
 
     public abstract void create();
 
-    // Subclasses must load actors in this method
+    public abstract void render();
+
+
     public abstract void buildStage();
 
-    @Override
-    public void render(float delta) {
-        // Clear screen
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Calling to Stage methods
-        super.act(delta);
-        super.draw();
-    }
 
     @Override
     public void show() {
