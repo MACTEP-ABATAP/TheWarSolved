@@ -4,8 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.ivs.tws.Maps.MapTile;
+
+import java.util.Map;
 
 public abstract class AbstractScreen extends Stage implements Screen {
 
@@ -42,5 +46,9 @@ public abstract class AbstractScreen extends Stage implements Screen {
     @Override public void hide() {}
     @Override public void pause() {}
     @Override public void resume() {}
+
+    protected abstract Texture mapTextures();
+
+    protected abstract Map<Integer, MapTile> createTiles();
 }
 

@@ -31,7 +31,6 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void buildStage() {
 
-        // Adding actors
         Image bg = new Image(txtrBg);
         addActor(bg);
 
@@ -43,7 +42,6 @@ public class MainMenuScreen extends AbstractScreen {
         btnExit.setPosition(getWidth() / 2, 60.f, Align.bottom);
         addActor(btnExit);
 
-        // Setting listeners
         btnPlay.addListener( UIFactory.createListener(ScreenEnum.LEVEL_SELECT) );
 
         btnExit.addListener(

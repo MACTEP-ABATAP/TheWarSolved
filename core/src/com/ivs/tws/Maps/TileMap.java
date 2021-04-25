@@ -1,7 +1,7 @@
 package com.ivs.tws.Maps;
 
-public class Map extends AbstractMap {
-    private int TileType;
+public class TileMap extends AbstractMap {
+    public int TileType;
 
     public int [][] mapData = {{1, 1, 1, 1, 1, 1, 1, 2, 1},
                                 {2, 0, 0, 2, 0, 0, 1, 0, 1},
