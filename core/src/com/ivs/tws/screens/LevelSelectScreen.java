@@ -5,9 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.utils.Align;
+import com.ivs.tws.Maps.MapTile;
 import com.ivs.tws.screens.ScreenUtil.AbstractScreen;
 import com.ivs.tws.screens.ScreenUtil.ScreenEnum;
 import com.ivs.tws.screens.ScreenUtil.UIFactory;
+
+import java.util.Map;
 
 public class LevelSelectScreen extends AbstractScreen {
     private Texture txtrBg;
@@ -17,10 +20,10 @@ public class LevelSelectScreen extends AbstractScreen {
 
     public LevelSelectScreen() {
         super();
-        txtrBg   = new Texture( Gdx.files.internal("img/level_select_bg.png") );
-        txtrBack = new Texture( Gdx.files.internal("img/btn_back.png") );
-        txtrLevel1 = new Texture( Gdx.files.internal("img/btn_level_1.png") );
-        txtrLevel2 = new Texture( Gdx.files.internal("img/btn_level_2.png") );
+        txtrBg   = new Texture( Gdx.files.internal("img/Play.png") );
+        txtrBack = new Texture( Gdx.files.internal("img/Play.png") );
+        txtrLevel1 = new Texture( Gdx.files.internal("img/Play.png") );
+        txtrLevel2 = new Texture( Gdx.files.internal("img/Play.png") );
     }
 
     @Override
@@ -50,6 +53,21 @@ public class LevelSelectScreen extends AbstractScreen {
         btnBack.addListener( UIFactory.createListener( ScreenEnum.MAIN_MENU ) );
         btnLevel1.addListener( UIFactory.createListener(ScreenEnum.GAME, 1) );
         btnLevel2.addListener( UIFactory.createListener(ScreenEnum.GAME, 2) );
+    }
+
+    @Override
+    protected Texture mapTextures() {
+        return null;
+    }
+
+    @Override
+    protected Map<Integer, MapTile> createTiles() {
+        return null;
+    }
+
+    @Override
+    public void render(float delta) {
+
     }
 
     @Override

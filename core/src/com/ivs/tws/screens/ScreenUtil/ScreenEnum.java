@@ -1,5 +1,6 @@
 package com.ivs.tws.screens.ScreenUtil;
 
+import com.ivs.tws.screens.BattlefieldScreen;
 import com.ivs.tws.screens.LevelSelectScreen;
 import com.ivs.tws.screens.MainMenuScreen;
 
@@ -17,7 +18,7 @@ public enum ScreenEnum {
     },
     GAME {
         public BattlefieldScreen getScreen(Object... params) {
-            return new BattlefieldScreen((Integer) params[0]);
+            return new BattlefieldScreen();
         }
     };
 

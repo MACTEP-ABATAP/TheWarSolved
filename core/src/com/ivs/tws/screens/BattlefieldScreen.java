@@ -11,9 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.ivs.tws.Maps.MapTile;
+import com.ivs.tws.Maps.TileMap;
 import com.ivs.tws.Maps.TileType;
 import com.ivs.tws.screens.ScreenUtil.AbstractScreen;
+import com.ivs.tws.screens.ScreenUtil.ScreenPoint;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,16 +35,20 @@ public class BattlefieldScreen extends AbstractScreen {
     private Map<Integer, MapTile> mapTiles;
     private Map<Integer, Texture> mapTextures;
     private Map<Integer, MapTile> tiles;
-    private MapPoint = new MapPoint();
+    public ScreenPoint screenPoint;
+
     public SpriteBatch batch;
 
     public Stage battlefield;
+    public MapTile mapTile;
+    public MapTile currentTile;
+    public TileMap mapData;
 
     public OrthographicCamera camera;
     public InputMultiplexer input = new InputMultiplexer();
     private double currentTime = 0;
     private double timeFromLastUpdate = 0;
-    private double timeBetweenUpdates = 1000;
+    private final double timeBetweenUpdates = 1000;
 
 
     @Override
@@ -66,6 +73,10 @@ public class BattlefieldScreen extends AbstractScreen {
         this.tiles = this.createTiles();
     }
 
+
+
+
+
     private Map<Integer, Texture> loadTexture() {
         Map<Integer, Texture> texture = new HashMap<Integer, Texture>();
         for (TileType type : TileType.values()) {
@@ -85,18 +96,50 @@ public class BattlefieldScreen extends AbstractScreen {
 
     private List<ArrayList<MapTile>> createWorldTiles(int[][] mapTileData){
         List<ArrayList<MapTile>> isoTiles = new ArrayList<ArrayList<MapTile>>();
-        for (int x = this.Maps.Map.levelData.length - 1; x >= 0 ; x--) {
+        for (int x = this.mapData.mapData.length - 1; x >= 0 ; x--) {
             ArrayList<MapTile> row = new ArrayList<MapTile>();
-            for (int y = this.Maps.Map.levelData[x].length - 1; y >= 0; y--) {
-                int tileType = this.Maps.Map.levelData[x][y];
+            for (int y = this.mapData.mapData[x].length - 1; y >= 0; y--) {
+                int tileType = this.mapData.mapData[x][y];
                 row.add(this.tiles.get(tileType));
             }
             isoTiles.add(row);
         }
         return isoTiles;
     }
+
+
+    private void updateWorld(List<ArrayList<MapTile>> world) {
+        for (int x = this.mapData.mapData.length - 1; x >= 0 ; x--) {
+            ArrayList<MapTile> row = world.get(x);
+
+            for (int y = this.mapData.mapData[x].length - 1; y >= 0; y--) {
+                int tyleType = this.mapData.mapData[x][y];
+                MapTile currentTile = row.get(y);
+                if (currentTile.getTileType() != tyleType) {
+                    row.set(y, this.mapTiles.get(tyleType));
+                }
+            }
+        }
+    }
+
     @Override
-    public void render(){
+    public void buildStage() {
+
+    }
+
+    @Override
+    protected Texture mapTextures() {
+        return null;
+    }
+
+    @Override
+    protected Map<Integer, MapTile> createTiles() {
+        return null;
+    }
+
+    @Override
+    public void render(float delta) {
+
         Gdx.gl.glClearColor(0.2f, 0.5f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -105,19 +148,19 @@ public class BattlefieldScreen extends AbstractScreen {
         battlefield.draw();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        super.render();
 
-        this.updateWorld(this.mapTiles);
+
+        this.updateWorld((List<ArrayList<MapTile>>) this.mapTiles);
 
         int scaleReducer = 12;
         float gapReducer = 0.78f; //smaller is a smaller gap
         for (int x = this.mapTiles.size() - 1; x >= 0; x--) {
-            List<MapTile> row = this.mapTiles.get(x);
+            List<MapTile> row = (List<MapTile>) this.mapTiles.get(x);
             for (int y = row.size() - 1; y >= 0; y--) {
                 MapTile tile = row.get(y);
-                point.set((int)(x * this.defaultHeight * gapReducer / scaleReducer),
+                screenPoint.set((int)(x * this.defaultHeight * gapReducer / scaleReducer),
                         (int)(y * this.defaultHeight * gapReducer / scaleReducer));
-                point.convertTwoDToIso();
+                ScreenPoint.OrthoToIso(screenPoint);
 
 
                 int count = 0;
@@ -133,8 +176,8 @@ public class BattlefieldScreen extends AbstractScreen {
 
                     TextureRegion textureRegion = tile.textures.get(h);
                     batch.draw(textureRegion,
-                            point.x,
-                            point.y + h * this.defaultHeight / scaleReducer,
+                            ScreenPoint.OrthoToIso(screenPoint).ScreenX,
+                            ScreenPoint.OrthoToIso(screenPoint).ScreenY + h * this.defaultHeight / scaleReducer,
                             textureRegion.getRegionWidth() / scaleReducer,
                             textureRegion.getRegionHeight() / scaleReducer);;
                 }
@@ -148,32 +191,12 @@ public class BattlefieldScreen extends AbstractScreen {
         this.currentTime = newTime;
         this.timeFromLastUpdate += timeElapsed;
 
-        if (this.timeFromLastUpdate > this.timeBetweenUpdates) {
-            this.timeFromLastUpdate = 0;
-            this.Maps.Map.updateWorld();
-        }
-    }
-
-    private void updateWorld(List<ArrayList<MapTile>> world) {
-        for (int x = this.Maps.Map.levelData.length - 1; x >= 0 ; x--) {
-            ArrayList<MapTile> row = world.get(x);
-            for (int y = this.Maps.Map.levelData[x].length - 1; y >= 0; y--) {
-                int tileType = this.Maps.Map.levelData[x][y];
-                MapTile currentTile = row.get(y);
-                if (currentTile.getTileType() != tileType) {
-                    row.set(y, this.tiles.get(tileType));
-                }
-            }
-        }
-    }
-
-    @Override
-    public void buildStage() {
-
     }
 
     @Override
     public void dispose(){
 
     }
+
+
 }
