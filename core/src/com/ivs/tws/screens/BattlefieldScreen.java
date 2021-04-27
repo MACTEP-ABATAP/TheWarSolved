@@ -73,6 +73,10 @@ public class BattlefieldScreen extends AbstractScreen {
         this.tiles = this.createTiles();
     }
 
+
+
+
+
     private Map<Integer, Texture> loadTexture() {
         Map<Integer, Texture> texture = new HashMap<Integer, Texture>();
         for (TileType type : TileType.values()) {
@@ -102,8 +106,40 @@ public class BattlefieldScreen extends AbstractScreen {
         }
         return isoTiles;
     }
+
+
+    private void updateWorld(List<ArrayList<MapTile>> world) {
+        for (int x = this.mapData.mapData.length - 1; x >= 0 ; x--) {
+            ArrayList<MapTile> row = world.get(x);
+
+            for (int y = this.mapData.mapData[x].length - 1; y >= 0; y--) {
+                int tyleType = this.mapData.mapData[x][y];
+                MapTile currentTile = row.get(y);
+                if (currentTile.getTileType() != tyleType) {
+                    row.set(y, this.mapTiles.get(tyleType));
+                }
+            }
+        }
+    }
+
     @Override
-    public void render(){
+    public void buildStage() {
+
+    }
+
+    @Override
+    protected Texture mapTextures() {
+        return null;
+    }
+
+    @Override
+    protected Map<Integer, MapTile> createTiles() {
+        return null;
+    }
+
+    @Override
+    public void render(float delta) {
+
         Gdx.gl.glClearColor(0.2f, 0.5f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -140,10 +176,10 @@ public class BattlefieldScreen extends AbstractScreen {
 
                     TextureRegion textureRegion = tile.textures.get(h);
                     batch.draw(textureRegion,
-                    ScreenPoint.OrthoToIso(screenPoint).ScreenX,
-                    ScreenPoint.OrthoToIso(screenPoint).ScreenY + h * this.defaultHeight / scaleReducer,
-                    textureRegion.getRegionWidth() / scaleReducer,
-                    textureRegion.getRegionHeight() / scaleReducer);;
+                            ScreenPoint.OrthoToIso(screenPoint).ScreenX,
+                            ScreenPoint.OrthoToIso(screenPoint).ScreenY + h * this.defaultHeight / scaleReducer,
+                            textureRegion.getRegionWidth() / scaleReducer,
+                            textureRegion.getRegionHeight() / scaleReducer);;
                 }
             }
         }
@@ -154,40 +190,6 @@ public class BattlefieldScreen extends AbstractScreen {
         double timeElapsed = newTime - this.currentTime;
         this.currentTime = newTime;
         this.timeFromLastUpdate += timeElapsed;
-
-    }
-
-    private void updateWorld(List<ArrayList<MapTile>> world) {
-        for (int x = this.mapData.mapData.length - 1; x >= 0 ; x--) {
-            ArrayList<MapTile> row = world.get(x);
-
-            for (int y = this.mapData.mapData[x].length - 1; y >= 0; y--) {
-                int tyleType = this.mapData.mapData[x][y];
-                MapTile currentTile = row.get(y);
-                if (currentTile.getTileType() != tyleType) {
-                    row.set(y, this.mapTiles.get(tyleType));
-                }
-            }
-        }
-    }
-
-    @Override
-    public void buildStage() {
-
-    }
-
-    @Override
-    protected Texture mapTextures() {
-        return null;
-    }
-
-    @Override
-    protected Map<Integer, MapTile> createTiles() {
-        return null;
-    }
-
-    @Override
-    public void render(float delta) {
 
     }
 

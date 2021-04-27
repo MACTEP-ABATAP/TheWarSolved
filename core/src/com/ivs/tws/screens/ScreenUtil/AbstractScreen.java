@@ -19,8 +19,6 @@ public abstract class AbstractScreen extends Stage implements Screen {
 
     public abstract void create();
 
-    public abstract void render();
-
 
     public abstract void buildStage();
 
