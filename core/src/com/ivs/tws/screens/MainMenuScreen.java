@@ -7,20 +7,26 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.utils.Align;
+import com.ivs.tws.Maps.MapTile;
+import com.ivs.tws.controller.MyGameCallback;
 import com.ivs.tws.screens.ScreenUtil.AbstractScreen;
 import com.ivs.tws.screens.ScreenUtil.ScreenEnum;
 import com.ivs.tws.screens.ScreenUtil.UIFactory;
+
+import java.util.Map;
 
 public class MainMenuScreen extends AbstractScreen {
     private Texture txtrBg;
     private Texture txtrPlay;
     private Texture txtrExit;
 
+
     public MainMenuScreen() {
         super();
-        txtrBg   = new Texture( Gdx.files.internal("img/main_menu_bg.png") );
-        txtrPlay = new Texture( Gdx.files.internal("img/level_select.png") );
-        txtrExit = new Texture( Gdx.files.internal("img/btn_exit.png") );
+
+        txtrBg   = new Texture( Gdx.files.internal("img/badlogic.png") );
+        txtrPlay = new Texture( Gdx.files.internal("img/Play.png") );
+        txtrExit = new Texture( Gdx.files.internal("img/BurntOrange") );
     }
 
     @Override
@@ -52,6 +58,21 @@ public class MainMenuScreen extends AbstractScreen {
                         return false;
                     }
                 });
+    }
+
+    @Override
+    protected Texture mapTextures() {
+        return null;
+    }
+
+    @Override
+    protected Map<Integer, MapTile> createTiles() {
+        return null;
+    }
+
+    @Override
+    public void render(float delta) {
+
     }
 
     @Override
