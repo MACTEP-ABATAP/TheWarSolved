@@ -19,8 +19,7 @@ public class MyGame extends Game {
     public void create() {
         camera = new IsoSystem();
         camera.setToOrtho(false, GlobalCfg.VIEWP_W, GlobalCfg.VIEWP_H);
-
-        // to initialize the static AssetManager
+        
         Assets.instance();
 
         batch = new SpriteBatch();
@@ -39,7 +38,7 @@ public class MyGame extends Game {
     @Override
     public void render() {
         super.render();
-        //getScreen().render(Gdx.graphics.getDeltaTime());
+        getScreen().render(Gdx.graphics.getDeltaTime());
     }
 
     @Override
