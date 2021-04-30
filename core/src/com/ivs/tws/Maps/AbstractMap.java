@@ -22,12 +22,6 @@ public class AbstractMap extends Map {
     public MapLayers layers = new MapLayers();
     public MapProperties properties = new MapProperties();
 
-
-
-
-
-
-
     @Override
     public MapLayers getLayers() {
         return super.getLayers();

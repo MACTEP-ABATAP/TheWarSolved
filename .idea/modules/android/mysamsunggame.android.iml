@@ -48,6 +48,7 @@
     <orderEntry type="library" name="Gradle: net.dermetfan.libgdx-utils:libgdx-utils:0.13.4" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx:1.9.14" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx-controllers:gdx-controllers-core:2.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: net.onedaybeard.artemis:artemis-odb:2.3.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.6" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx-controllers:gdx-controllers-android:2.1.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: de.tomgrill.gdxdialogs:gdx-dialogs-android:1.2.5@aar" level="project" />

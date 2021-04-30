@@ -42,9 +42,11 @@ task copyAndroidNatives {
         file("libs/arm64-v8a/").mkdirs()
         file("libs/x86_64/").mkdirs()
         file("libs/x86/").mkdirs()
+        file("libs/artemis/").mkdirs()
 
         configurations.natives.copy().files.each { jar ->
             def outputDir = null
+            if (jar.name.endsWith("artemis.jar")) outputDir = file("libs/artemis")
             if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
             if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
             if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
