@@ -1,30 +1,9 @@
-package com.ivs.tws.GlobalSystem;
+package com.ivs.tws.Model.System;
 
-import com.artemis.Aspect;
-import com.artemis.Entity;
-import com.artemis.EntitySystem;
-import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class GestureSystem extends EntitySystem implements GestureDetector.GestureListener {
-
-    public GestureSystem(Aspect.Builder aspect) {
-        super(aspect);
-    }
-
-
-
-    @Override
-    protected void processSystem() {
-
-    }
-
-    @Override
-    protected boolean checkProcessing() {
-        return true;
-    }
-
+public class GestureSubSystem implements GestureDetector.GestureListener {
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
         return false;
@@ -45,8 +24,6 @@ public abstract class GestureSystem extends EntitySystem implements GestureDetec
         return false;
     }
 
-    protected abstract void processEntities(ImmutableBag<Entity> entities);
-
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
         return false;
@@ -63,8 +40,7 @@ public abstract class GestureSystem extends EntitySystem implements GestureDetec
     }
 
     @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1,
-                         Vector2 pointer2) {
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
         return false;
     }
 
@@ -72,8 +48,4 @@ public abstract class GestureSystem extends EntitySystem implements GestureDetec
     public void pinchStop() {
 
     }
-
-
-
-
 }

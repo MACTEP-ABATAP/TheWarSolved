@@ -26,7 +26,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Gradle: mysamsunggame.core.core-1.0" level="project" />
     <orderEntry type="module-library">
       <library name="Gradle: com.badlogicgames.gdx:gdx-bullet:1.9.14">
         <CLASSES>
