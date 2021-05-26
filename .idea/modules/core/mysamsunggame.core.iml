@@ -26,7 +26,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Gradle: mysamsunggame.core.core-1.0" level="project" />
     <orderEntry type="module-library">
       <library name="Gradle: com.badlogicgames.gdx:gdx-bullet:1.9.14">
         <CLASSES>
@@ -101,6 +100,17 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx-controllers/gdx-controllers-core/2.1.0/42d4292543ec88a1f359cecec817ba49e3589590/gdx-controllers-core-2.1.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: net.onedaybeard.artemis:artemis-odb:2.3.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.onedaybeard.artemis/artemis-odb/2.3.0/4fdbe995b570dc6ae7078d30770fc8df348f10d6/artemis-odb-2.3.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.onedaybeard.artemis/artemis-odb/2.3.0/e4ccadf6c5f21684680848659e54293b1a663b9/artemis-odb-2.3.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
