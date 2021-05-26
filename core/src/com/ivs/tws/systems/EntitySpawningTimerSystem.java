@@ -42,9 +42,9 @@ public class EntitySpawningTimerSystem extends BaseSystem {
 
     @Override
     protected void processSystem() {
-        timer1.(world.delta);
-        timer2.update(world.delta);
-        timer3.update(world.delta);
+        timer1.update((int) world.delta);
+        timer2.update((int) world.delta);
+        timer3.update((int) world.delta);
     }
 
 }
