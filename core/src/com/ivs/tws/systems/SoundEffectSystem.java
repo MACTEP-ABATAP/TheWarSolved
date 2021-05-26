@@ -48,7 +48,7 @@ public class SoundEffectSystem extends EntityProcessingSystem {
 			break;
 		}
 
-		e.removeComponent(soundEffect);
-		e.changedInWorld();
+		e.edit().remove(soundEffect);
+
     }
 }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.ivs.tws.systems.CollisionSystem;
 import com.ivs.tws.systems.ColorAnimationSystem;
+import com.ivs.tws.systems.EntitySpawningTimerSystem;
 import com.ivs.tws.systems.ExpiringSystem;
 import com.ivs.tws.systems.HealthRenderSystem;
 import com.ivs.tws.systems.HudRenderSystem;

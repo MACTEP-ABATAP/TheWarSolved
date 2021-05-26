@@ -38,7 +38,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 	private Vector3 mouseVector;
 	private Rectangle viewport;
 	
-	@SuppressWarnings("unchecked")
+
     public PlayerInputSystem(OrthographicCamera camera, Rectangle viewport) {
 		super(Aspect.all(Position.class, Velocity.class, Player.class));
 		this.camera = camera;

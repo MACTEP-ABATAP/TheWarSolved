@@ -14,7 +14,7 @@ public class ExpiringSystem extends DelayedEntityProcessingSystem {
 
 	ComponentMapper<Expires> em;
 
-	@SuppressWarnings("unchecked")
+
     public ExpiringSystem() {
 		super(Aspect.all(Expires.class));
 	}

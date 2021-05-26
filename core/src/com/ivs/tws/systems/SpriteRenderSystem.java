@@ -91,7 +91,7 @@ public class SpriteRenderSystem extends EntitySystem {
 
 	protected void process(Entity e) {
 		if (pm.has(e)) {
-			Position position = pm.getSafe(e,);
+			Position position = pm.get(e);
 			Sprite sprite = sm.get(e);
 
 			AtlasRegion spriteRegion = regionsByEntity.get(e.getId());
