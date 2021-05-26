@@ -2,9 +2,11 @@ package com.ivs.tws;
 
 import android.os.Bundle;
 
+
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.ivs.tws.screens.Screen;
+import com.ivs.tws.core.SpaceshipWarrior;
+
 
 public class AndroidLauncher extends AndroidApplication{
 
@@ -19,7 +21,7 @@ public class AndroidLauncher extends AndroidApplication{
 		config.useAccelerometer = false;
 		config.useCompass = false;
 		config.useWakelock = true;
-		initialize(new Screen(), config);
+		initialize(new SpaceshipWarrior(), config);
 	}
 
 
