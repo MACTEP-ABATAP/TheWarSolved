@@ -62,7 +62,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		destinationX = mouseVector.x;
 		destinationY = mouseVector.y;
 		
-		float angleInRadians = Math.toRadians(position.x, position.y, destinationX, destinationY);
+		float angleInRadians = Utils.angleInRadians(position.x, position.y, destinationX, destinationY);
 		
 		position.x += Math.cos(angleInRadians) * 500f * world.getDelta();
 		position.y += Math.sin(angleInRadians) * 500f * world.getDelta();
