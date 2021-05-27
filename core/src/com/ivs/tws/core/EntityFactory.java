@@ -1,6 +1,8 @@
 package com.ivs.tws.core;
 
 
+import com.artemis.ComponentManager;
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
@@ -18,14 +20,15 @@ import com.ivs.tws.components.Sprite;
 import com.ivs.tws.components.Velocity;
 
 public class EntityFactory {
-	
+
+
 	public static Entity createPlayer(World world, float x, float y) {
 		Entity e = world.createEntity();
 		
 		Position position = new Position();
 		position.x = x;
 		position.y = y;
-		e.addComponent(position);
+		e.edit().add(position);
 		
 		Sprite sprite = new Sprite();
 		sprite.name = "fighter";
@@ -33,18 +36,18 @@ public class EntityFactory {
 		sprite.g = 255/255f;
 		sprite.b = 129/255f;
 		sprite.layer = Sprite.Layer.ACTORS_3;
-		e.addComponent(sprite);
+		e.edit().add(sprite);
 		
 		Velocity velocity = new Velocity();
 		velocity.vectorX = 0;
 		velocity.vectorY = 0;
-		e.addComponent(velocity);
+		e.edit().add(velocity);
 		
 		Bounds bounds = new Bounds();
 		bounds.radius = 43;
-		e.addComponent(bounds);
+		e.edit().add(bounds);
 		
-		e.addComponent(new Player());
+		e.edit().add(new Player());
 		
 		world.getRegistered(GroupManager.class).add(e, Constants.Groups.PLAYER_SHIP);
 		
@@ -57,28 +60,28 @@ public class EntityFactory {
 		Position position = new Position();
 		position.x = x;
 		position.y = y;
-		e.addComponent(position);
+		e.edit().add(position);
 		
 		Sprite sprite = new Sprite();
 		sprite.name = "bullet";
 		sprite.layer = Sprite.Layer.PARTICLES;
-		e.addComponent(sprite);
+		e.edit().add(sprite);
 		
 		Velocity velocity = new Velocity();
 		velocity.vectorY = 800;
-		e.addComponent(velocity);
+		e.edit().add(velocity);
 		
 		Bounds bounds = new Bounds();
 		bounds.radius = 5;
-		e.addComponent(bounds);
+		e.edit().add(bounds);
 		
 		Expires expires = new Expires();
 		expires.delay = 5;
-		e.addComponent(expires);
+		e.edit().add(expires);
 		
 		SoundEffect sf = new SoundEffect();
 		sf.effect = SoundEffect.EFFECT.PEW;
-		e.addComponent(sf);
+		e.edit().add(sf);
 		
 		world.getRegistered(GroupManager.class).add(e, Constants.Groups.PLAYER_BULLETS);
 		
@@ -91,7 +94,7 @@ public class EntityFactory {
 		Position position = new Position();
 		position.x = x;
 		position.y = y;
-		e.addComponent(position);
+		e.edit().add(position);
 		
 		Sprite sprite = new Sprite();
 		sprite.name = name;
@@ -99,20 +102,20 @@ public class EntityFactory {
 		sprite.g = 0/255f;
 		sprite.b = 142/255f;
 		sprite.layer = layer;
-		e.addComponent(sprite);
+		e.edit().add(sprite);
 		
 		Velocity velocity = new Velocity();
 		velocity.vectorX = velocityX;
 		velocity.vectorY = velocityY;
-		e.addComponent(velocity);
+		e.edit().add(velocity);
 		
 		Bounds bounds = new Bounds();
 		bounds.radius = boundsRadius;
-		e.addComponent(bounds);
+		e.edit().add(bounds);
 		
 		Health h = new Health();
 		h.health = h.maximumHealth = health;
-		e.addComponent(h);
+		e.edit().add(h);
 		
 		world.getRegistered(GroupManager.class).add(e, Constants.Groups.ENEMY_SHIPS);
 		
@@ -124,7 +127,7 @@ public class EntityFactory {
 		
 		SoundEffect sf = new SoundEffect();
 		sf.effect = SoundEffect.EFFECT.SMALLASPLODE;
-		e.addComponent(sf);
+		e.edit().add(sf);
 		
 		
 		return e;
@@ -134,7 +137,7 @@ public class EntityFactory {
 		
 		SoundEffect sf = new SoundEffect();
 		sf.effect = SoundEffect.EFFECT.ASPLODE;
-		e.addComponent(sf);
+		e.edit().add(sf);
 		
 		return e;
 	}
@@ -145,7 +148,7 @@ public class EntityFactory {
 		Position position = new Position();
 		position.x = x;
 		position.y = y;
-		e.addComponent(position);
+		e.edit().add(position);
 		
 		Sprite sprite = new Sprite();
 		sprite.name = "explosion";
@@ -155,11 +158,11 @@ public class EntityFactory {
 		sprite.b = 0;
 		sprite.a = 0.5f;
 		sprite.layer = Sprite.Layer.PARTICLES;
-		e.addComponent(sprite);
+		e.edit().add(sprite);
 		
 		Expires expires = new Expires();
 		expires.delay = 0.5f;
-		e.addComponent(expires);
+		e.edit().add(expires);
 		
 		ScaleAnimation scaleAnimation = new ScaleAnimation();
 		scaleAnimation.active = true;
@@ -167,7 +170,7 @@ public class EntityFactory {
 		scaleAnimation.min = scale/100f;
 		scaleAnimation.speed = -3.0f;
 		scaleAnimation.repeat = false;
-		e.addComponent(scaleAnimation);
+		e.edit().add(scaleAnimation);
 		
 		return e;
 	}	
@@ -178,20 +181,20 @@ public class EntityFactory {
 		Position position = new Position();
 		position.x = MathUtils.random(-Constants.FRAME_WIDTH/2, Constants.FRAME_WIDTH/2);
 		position.y = MathUtils.random(-Constants.FRAME_HEIGHT/2, Constants.FRAME_HEIGHT/2);
-		e.addComponent(position);
+		e.edit().add(position);
 		
 		Sprite sprite = new Sprite();
 		sprite.name = "particle";
 		sprite.scaleX = sprite.scaleY = MathUtils.random(0.5f, 1f);
 		sprite.a = MathUtils.random(0.1f, 0.5f);
 		sprite.layer = Sprite.Layer.BACKGROUND;
-		e.addComponent(sprite);
+		e.edit().add(sprite);
 		
 		Velocity velocity = new Velocity();
 		velocity.vectorY = MathUtils.random(-10f, -60f);
-		e.addComponent(velocity);
+		e.edit().add(velocity);
 		
-		e.addComponent(new ParallaxStar());
+		e.edit().add(new ParallaxStar());
 		
 		ColorAnimation colorAnimation = new ColorAnimation();
 		colorAnimation.alphaAnimate = true;
@@ -199,7 +202,7 @@ public class EntityFactory {
 		colorAnimation.alphaSpeed = MathUtils.random(0.2f, 0.7f);
 		colorAnimation.alphaMin = 0.1f;
 		colorAnimation.alphaMax = 0.5f;
-		e.addComponent(colorAnimation);
+		e.edit().add(colorAnimation);
 		
 		return e;
 	}
@@ -210,7 +213,7 @@ public class EntityFactory {
 		Position position = new Position();
 		position.x = x;
 		position.y = y;
-		e.addComponent(position);
+		e.edit().add(position);
 		
 		Sprite sprite = new Sprite();
 		sprite.name = "particle";
@@ -220,7 +223,7 @@ public class EntityFactory {
 		sprite.b = 0;
 		sprite.a = 1f;
 		sprite.layer = Sprite.Layer.PARTICLES;
-		e.addComponent(sprite);
+		e.edit().add(sprite);
 		
 		float radians = MathUtils.random(2*MathUtils.PI);
 		float magnitude = MathUtils.random(400f);
@@ -228,11 +231,11 @@ public class EntityFactory {
 		Velocity velocity = new Velocity();
 		velocity.vectorX = magnitude * MathUtils.cos(radians);
 		velocity.vectorY = magnitude * MathUtils.sin(radians);
-		e.addComponent(velocity);
+		e.edit().add(velocity);
 
 		Expires expires = new Expires();
 		expires.delay = 1;
-		e.addComponent(expires);
+		e.edit().add(expires);
 
 		ColorAnimation colorAnimation = new ColorAnimation();
 		colorAnimation.alphaAnimate = true;
@@ -240,7 +243,7 @@ public class EntityFactory {
 		colorAnimation.alphaMin = 0f;
 		colorAnimation.alphaMax = 1f;
 		colorAnimation.repeat = false;
-		e.(colorAnimation);
+		e.edit().add(colorAnimation);
 
 		return e;
 	}
