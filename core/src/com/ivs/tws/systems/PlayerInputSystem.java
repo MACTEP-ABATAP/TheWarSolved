@@ -6,12 +6,14 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
+import com.artemis.World;
 import com.artemis.systems.EntityProcessingSystem;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.ivs.tws.components.Player;
@@ -70,20 +72,20 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		position.x = mouseVector.x;
 		position.y = mouseVector.y;
 		
-		/*
+
 		if(up) {
-			velocity.vectorY = MathUtils.clamp(velocity.vectorY+(world.getDeltaFloat()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
+			velocity.vectorY = MathUtils.clamp(velocity.vectorY+(world.getDelta()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
 		}
 		if(down) {
-			velocity.vectorY = MathUtils.clamp(velocity.vectorY-(world.getDeltaFloat()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
+			velocity.vectorY = MathUtils.clamp(velocity.vectorY-(world.getDelta()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
 		}
 		
 		if(left) {
-			velocity.vectorX = MathUtils.clamp(velocity.vectorX-(world.getDeltaFloat()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
+			velocity.vectorX = MathUtils.clamp(velocity.vectorX-(world.getDelta()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
 		}
 		if(right) {
-			velocity.vectorX = MathUtils.clamp(velocity.vectorX+(world.getDeltaFloat()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
-		}*/
+			velocity.vectorX = MathUtils.clamp(velocity.vectorX+(world.getDelta()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
+		}
 		
 		if(shoot) {
 			if(timeToFire <= 0) {
@@ -100,15 +102,16 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		}
 	}
 
+
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.A) {
+		if(keycode == Input.Buttons.FORWARD) {
 			left = true;
 		}
-		else if(keycode == Input.Keys.D) {
+		else if(keycode == Input.Buttons.RIGHT) {
 			right = true;
 		}
-		else if(keycode == Input.Keys.W) {
+		else if(keycode == Input.Buttons.LEFT) {
 			up = true;
 		}
 		else if(keycode == Input.Buttons.BACK) {
