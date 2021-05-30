@@ -9,6 +9,7 @@ import java.util.List;
 
 
 import com.artemis.Aspect;
+import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
@@ -26,7 +27,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.ivs.tws.components.Position;
 import com.ivs.tws.components.Sprite;
 
-public class SpriteRenderSystem extends EntitySystem {
+public class SpriteRenderSystem extends BaseEntitySystem {
 	ComponentMapper<Position> pm;
 	ComponentMapper<Sprite> sm;
 
@@ -108,7 +109,7 @@ public class SpriteRenderSystem extends EntitySystem {
 		batch.end();
 	}
 
-	@Override
+
 	public void inserted(Entity e) {
 		Sprite sprite = sm.get(e);
 		regionsByEntity.set(e.getId(), regions.get(sprite.name));
@@ -125,7 +126,7 @@ public class SpriteRenderSystem extends EntitySystem {
 		});
 	}
 
-	@Override
+
 	public void removed(Entity e) {
 		regionsByEntity.set(e.getId(), null);
 		sortedEntities.remove(e);

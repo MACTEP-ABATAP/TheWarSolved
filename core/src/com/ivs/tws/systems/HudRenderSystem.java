@@ -3,7 +3,7 @@ package com.ivs.tws.systems;
 import java.util.HashMap;
 
 
-
+import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.EntitySystem;
 
@@ -24,7 +24,7 @@ import com.ivs.tws.components.Position;
 import com.ivs.tws.components.Sprite;
 import com.ivs.tws.core.Constants;
 
-public class HudRenderSystem extends EntitySystem {
+public class HudRenderSystem extends BaseEntitySystem {
 
 	ComponentMapper<Position> pm;
 

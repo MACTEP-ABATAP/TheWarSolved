@@ -6,6 +6,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.systems.EntityProcessingSystem;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.ivs.tws.components.SoundEffect;
@@ -24,7 +25,7 @@ public class SoundEffectSystem extends EntityProcessingSystem {
 
 	}
 
-	@SuppressWarnings("unchecked")
+
 	public SoundEffectSystem() {
 		super(Aspect.all(SoundEffect.class));
 	}

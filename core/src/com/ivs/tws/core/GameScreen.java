@@ -34,6 +34,9 @@ import com.ivs.tws.systems.SoundEffectSystem;
 import com.ivs.tws.systems.SpriteRenderSystem;
 
 import java.awt.Font;
+import java.lang.annotation.Native;
+
+import sun.awt.im.InputMethodManager;
 
 
 public class GameScreen implements Screen {
@@ -86,6 +89,8 @@ public class GameScreen implements Screen {
 						).build();
 
 		World world = new World(config);
+
+
 
 		EntityFactory.createPlayer(world, 0, 0);
 
@@ -162,10 +167,11 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 	}
-	/*	/InputMethodManager: InputMethodManager.getInstance() is deprecated because it cannot be compatible with multi-display. Use context.getSystemService(InputMethodManager.class) instead.
+	/*	/InputMethodManager: InputMethodManager.getInstance() /* is deprecated because it cannot be compatible with multi-display. Use context.getSystemService(InputMethodManager.class) instead.
     java.lang.Throwable
         at android.view.inputmethod.InputMethodManager.getInstance(InputMethodManager.java:1024)
-        at java.lang.reflect.Method.invoke(Native Method)
+        at java.lang.reflect.Method.invoke(
+	Native Method)
         at com.android.tools.profiler.support.profilers.EventProfiler$InputConnectionHandler.run(EventProfiler.java:261)
         at java.lang.Thread.run(Thread.java:929)
 W/InputMethodManager: InputMethodManager.peekInstance() is deprecated because it cannot be compatible with multi-display. Use context.getSystemService(InputMethodManager.class) instead.

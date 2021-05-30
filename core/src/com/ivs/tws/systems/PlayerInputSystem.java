@@ -9,6 +9,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.systems.EntityProcessingSystem;
 
+import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -21,7 +22,7 @@ import com.ivs.tws.components.Position;
 import com.ivs.tws.components.Velocity;
 import com.ivs.tws.core.EntityFactory;
 
-public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
+public class PlayerInputSystem extends IteratingSystem implements InputProcessor {
 	private static final float HorizontalThrusters = 300;
 	private static final float HorizontalMaxSpeed = 300;
 	private static final float VerticalThrusters = 200;
@@ -54,7 +55,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 	}
 
 	@Override
-	protected void process(Entity e) {
+	protected void process(int e) {
 		Position position = pm.get(e);
 		Velocity velocity = vm.get(e);
 		
@@ -123,16 +124,16 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(keycode == Input.Keys.A) {
+		if(keycode == Input.Buttons.FORWARD) {
 			left = false;
 		}
-		else if(keycode == Input.Keys.D) {
+		else if(keycode == Input.Buttons.RIGHT) {
 			right = false;
 		}
-		else if(keycode == Input.Keys.W) {
+		else if(keycode == Input.Buttons.LEFT) {
 			up = false;
 		}
-		else if(keycode == Input.Keys.S) {
+		else if(keycode == Input.Buttons.BACK) {
 			down = false;
 		}
 		
