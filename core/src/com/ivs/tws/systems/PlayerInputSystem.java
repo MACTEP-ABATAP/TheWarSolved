@@ -6,12 +6,15 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
+import com.artemis.World;
 import com.artemis.systems.EntityProcessingSystem;
 
+import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.ivs.tws.components.Player;
@@ -19,7 +22,7 @@ import com.ivs.tws.components.Position;
 import com.ivs.tws.components.Velocity;
 import com.ivs.tws.core.EntityFactory;
 
-public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
+public class PlayerInputSystem extends IteratingSystem implements InputProcessor {
 	private static final float HorizontalThrusters = 300;
 	private static final float HorizontalMaxSpeed = 300;
 	private static final float VerticalThrusters = 200;
@@ -52,7 +55,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 	}
 
 	@Override
-	protected void process(Entity e) {
+	protected void process(int e) {
 		Position position = pm.get(e);
 		Velocity velocity = vm.get(e);
 		
@@ -70,20 +73,20 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		position.x = mouseVector.x;
 		position.y = mouseVector.y;
 		
-		/*
+
 		if(up) {
-			velocity.vectorY = MathUtils.clamp(velocity.vectorY+(world.getDeltaFloat()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
+			velocity.vectorY = MathUtils.clamp(velocity.vectorY+(world.getDelta()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
 		}
 		if(down) {
-			velocity.vectorY = MathUtils.clamp(velocity.vectorY-(world.getDeltaFloat()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
+			velocity.vectorY = MathUtils.clamp(velocity.vectorY-(world.getDelta()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
 		}
 		
 		if(left) {
-			velocity.vectorX = MathUtils.clamp(velocity.vectorX-(world.getDeltaFloat()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
+			velocity.vectorX = MathUtils.clamp(velocity.vectorX-(world.getDelta()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
 		}
 		if(right) {
-			velocity.vectorX = MathUtils.clamp(velocity.vectorX+(world.getDeltaFloat()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
-		}*/
+			velocity.vectorX = MathUtils.clamp(velocity.vectorX+(world.getDelta()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
+		}
 		
 		if(shoot) {
 			if(timeToFire <= 0) {
@@ -100,15 +103,16 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		}
 	}
 
+
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.A) {
+		if(keycode == Input.Buttons.FORWARD) {
 			left = true;
 		}
-		else if(keycode == Input.Keys.D) {
+		else if(keycode == Input.Buttons.RIGHT) {
 			right = true;
 		}
-		else if(keycode == Input.Keys.W) {
+		else if(keycode == Input.Buttons.LEFT) {
 			up = true;
 		}
 		else if(keycode == Input.Buttons.BACK) {
@@ -120,16 +124,16 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(keycode == Input.Keys.A) {
+		if(keycode == Input.Buttons.FORWARD) {
 			left = false;
 		}
-		else if(keycode == Input.Keys.D) {
+		else if(keycode == Input.Buttons.RIGHT) {
 			right = false;
 		}
-		else if(keycode == Input.Keys.W) {
+		else if(keycode == Input.Buttons.LEFT) {
 			up = false;
 		}
-		else if(keycode == Input.Keys.S) {
+		else if(keycode == Input.Buttons.BACK) {
 			down = false;
 		}
 		

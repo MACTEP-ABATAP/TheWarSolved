@@ -7,21 +7,22 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
 import com.artemis.systems.EntityProcessingSystem;
+import com.artemis.systems.IteratingSystem;
 import com.ivs.tws.components.ScaleAnimation;
 import com.ivs.tws.components.Sprite;
 
-public class ScaleAnimationSystem extends EntityProcessingSystem {
+public class ScaleAnimationSystem extends IteratingSystem {
 
 	ComponentMapper<ScaleAnimation> sa;
 	ComponentMapper<Sprite> sm;
 
-	@SuppressWarnings("unchecked")
+
     public ScaleAnimationSystem() {
 		super(Aspect.all(ScaleAnimation.class));
 	}
 
 	@Override
-	protected void process(Entity e) {
+	protected void process(int e) {
 		ScaleAnimation scaleAnimation = sa.get(e);
 		if (scaleAnimation.active) {
 			Sprite sprite = sm.get(e);

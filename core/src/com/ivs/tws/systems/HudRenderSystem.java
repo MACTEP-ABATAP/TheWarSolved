@@ -3,7 +3,7 @@ package com.ivs.tws.systems;
 import java.util.HashMap;
 
 
-
+import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.EntitySystem;
 
@@ -16,11 +16,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.ivs.tws.components.Position;
 import com.ivs.tws.components.Sprite;
 import com.ivs.tws.core.Constants;
 
-public class HudRenderSystem extends EntitySystem {
+public class HudRenderSystem extends BaseEntitySystem {
 
 	ComponentMapper<Position> pm;
 
@@ -31,6 +35,9 @@ public class HudRenderSystem extends EntitySystem {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private BitmapFont font;
+
+
+
 
 	public HudRenderSystem(OrthographicCamera camera) {
 		this.camera = camera;
@@ -51,6 +58,9 @@ public class HudRenderSystem extends EntitySystem {
 		TextureRegion fontRegion = new TextureRegion(fontTexture);
 		font = new BitmapFont(Gdx.files.internal("fonts/normal.fnt"), fontRegion, false);
 		font.setUseIntegerPositions(false);
+
+
+
 	}
 
 	@Override

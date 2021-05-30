@@ -1,10 +1,13 @@
 package com.ivs.tws.systems;
 
 import com.artemis.Aspect;
+import com.artemis.BaseEntitySystem;
+import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 
+import com.artemis.annotations.All;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
@@ -19,7 +22,7 @@ import com.ivs.tws.core.EntityFactory;
 import org.w3c.dom.css.Rect;
 
 
-public class CollisionSystem extends EntitySystem {
+public class CollisionSystem extends BaseEntitySystem {
 	 ComponentMapper<Position> pm;
 	 ComponentMapper<Bounds> bm;
 	 ComponentMapper<Health> hm;
@@ -29,6 +32,7 @@ public class CollisionSystem extends EntitySystem {
 
 	public CollisionSystem() {
 		super(Aspect.all(Position.class, Bounds.class));
+
 	}
 
 	@Override
@@ -49,6 +53,10 @@ public class CollisionSystem extends EntitySystem {
 				
 
 			    bullet.deleteFromWorld();
+				Expires bulletExpires = ex.get(bullet);
+				if(bulletExpires != null) {
+				    bulletExpires.delay = -1;
+				}
 
 
 				Health health = hm.get(ship);

@@ -7,6 +7,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
 import com.artemis.systems.EntityProcessingSystem;
+import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.ivs.tws.components.Health;
 import com.ivs.tws.components.Position;
 
-public class HealthRenderSystem extends EntityProcessingSystem {
+public class HealthRenderSystem extends IteratingSystem {
 	ComponentMapper<Position> pm;
 	ComponentMapper<Health> hm;
 	
@@ -26,7 +27,7 @@ public class HealthRenderSystem extends EntityProcessingSystem {
 	private OrthographicCamera camera;
 	private BitmapFont font;
 	
-	@SuppressWarnings("unchecked")
+
     public HealthRenderSystem(OrthographicCamera camera) {
 		super(Aspect.all(Position.class, Health.class));
 		this.camera = camera;
@@ -49,18 +50,20 @@ public class HealthRenderSystem extends EntityProcessingSystem {
 		batch.begin();
 	}
 
-	@Override
-	protected void process(Entity e) {
-		Position position = pm.get(e);
-		Health health = hm.get(e);
-		
-		int percentage = MathUtils.round(health.health/health.maximumHealth*100f);
-		
-		font.draw(batch, percentage+"%", position.x, position.y);
-	}
+
 	
 	@Override
 	protected void end() {
 		batch.end();
+	}
+
+	@Override
+	protected void process(int entityId) {
+		Position position = pm.get(entityId);
+		Health health = hm.get(entityId);
+
+		int percentage = MathUtils.round(health.health/health.maximumHealth*100f);
+
+		font.draw(batch, percentage+"%", position.x, position.y);
 	}
 }

@@ -16,19 +16,4 @@ public class Point {
     return d;
   }
 
-//  public static double Deg2Rad(double x1, double y1, double x2, double y2){
-//
-//    return x2;
-//  }
-//
-//
-//  public Point ( int x , int y )
-//  {
-//
-//    //alpha = ( ( Math.atan (y/x) ) * 180 ) / Math.PI;
-//  }
-
-//  public static double vector1(){
-//    return vector1();
-//  }
 }
