@@ -16,7 +16,7 @@ public class ScaleAnimationSystem extends IteratingSystem {
 	ComponentMapper<ScaleAnimation> sa;
 	ComponentMapper<Sprite> sm;
 
-
+	@SuppressWarnings("unchecked")
     public ScaleAnimationSystem() {
 		super(Aspect.all(ScaleAnimation.class));
 	}

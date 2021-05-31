@@ -16,7 +16,7 @@ public class EntitySpawningTimerSystem extends BaseSystem {
     private Timer timer1;
     private Timer timer2;
     private Timer timer3;
-
+    @SuppressWarnings("unchecked")
 	public EntitySpawningTimerSystem() {
         timer1 = new Timer(2, true) {
 

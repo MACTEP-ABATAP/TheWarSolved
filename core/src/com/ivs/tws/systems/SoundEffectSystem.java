@@ -51,5 +51,6 @@ public class SoundEffectSystem extends EntityProcessingSystem {
 
 		e.edit().remove(soundEffect);
 
+
     }
 }

@@ -29,7 +29,7 @@ public class CollisionSystem extends BaseEntitySystem {
 	 ComponentMapper<Expires> ex;
 	
 	private Bag<CollisionPair> collisionPairs;
-
+	@SuppressWarnings("unchecked")
 	public CollisionSystem() {
 		super(Aspect.all(Position.class, Bounds.class));
 
@@ -49,7 +49,7 @@ public class CollisionSystem extends BaseEntitySystem {
 			public void handleCollision(Entity bullet, Entity ship) {
 				Position bp = pm.get(bullet);
 				EntityFactory.createSmallExplosion(world, bp.x, bp.y).isActive();
-				for(int i = 0; 4 > i; i++) EntityFactory.createParticle(world, bp.x, bp.y).isActive();
+				for(int i = 0; 4 > i; i++) EntityFactory.createParticle(world, bp.x, bp.y);
 				
 
 			    bullet.deleteFromWorld();

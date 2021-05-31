@@ -14,7 +14,7 @@ public class MovementSystem extends IteratingSystem {
 	ComponentMapper<Position> pm;
 	ComponentMapper<Velocity> vm;
 
-
+	@SuppressWarnings("unchecked")
     public MovementSystem() {
 		super(Aspect.all(Position.class, Velocity.class));
 	}

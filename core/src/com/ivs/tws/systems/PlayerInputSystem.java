@@ -40,8 +40,8 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 	private OrthographicCamera camera;
 	private Vector3 mouseVector;
 	private Rectangle viewport;
-	
 
+	@SuppressWarnings("unchecked")
     public PlayerInputSystem(OrthographicCamera camera, Rectangle viewport) {
 		super(Aspect.all(Position.class, Velocity.class, Player.class));
 		this.camera = camera;
@@ -147,7 +147,7 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
-		if(button == Input.Buttons.LEFT) {
+		if(button == Input.Buttons.BACK) {
 			shoot = true;
 		}
 		return false;
@@ -155,7 +155,7 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
-		if(button == Input.Buttons.LEFT) {
+		if(button == Input.Buttons.FORWARD) {
 			shoot = false;
 		}
 		return true;

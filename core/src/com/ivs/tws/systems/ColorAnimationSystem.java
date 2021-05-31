@@ -13,7 +13,7 @@ import com.ivs.tws.components.Sprite;
 public class ColorAnimationSystem extends IteratingSystem {
 	ComponentMapper<ColorAnimation> cam;
 	ComponentMapper<Sprite> sm;
-
+	@SuppressWarnings("unchecked")
 	public ColorAnimationSystem() {
 		super(Aspect.all(ColorAnimation.class, Sprite.class));
 	}

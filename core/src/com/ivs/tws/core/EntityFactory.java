@@ -49,7 +49,7 @@ public class EntityFactory {
 		
 		e.edit().add(new Player());
 		
-		world.getRegistered(GroupManager.class).add(e, Constants.Groups.PLAYER_SHIP);
+		//world.getRegistered(GroupManager.class).add(e, Constants.Groups.PLAYER_SHIP);
 		
 		return e;
 	}
@@ -83,7 +83,7 @@ public class EntityFactory {
 		sf.effect = SoundEffect.EFFECT.PEW;
 		e.edit().add(sf);
 		
-		world.getRegistered(GroupManager.class).add(e, Constants.Groups.PLAYER_BULLETS);
+		//world.getRegistered(GroupManager.class).add(e, Constants.Groups.PLAYER_BULLETS);
 		
 		return e;
 	}
@@ -117,7 +117,7 @@ public class EntityFactory {
 		h.health = h.maximumHealth = health;
 		e.edit().add(h);
 		
-		world.getRegistered(GroupManager.class).add(e, Constants.Groups.ENEMY_SHIPS);
+		//world.getRegistered(GroupManager.class).add(e, Constants.Groups.ENEMY_SHIPS);
 		
 		return e;
 	}

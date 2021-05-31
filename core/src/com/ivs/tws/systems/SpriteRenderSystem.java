@@ -27,7 +27,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.ivs.tws.components.Position;
 import com.ivs.tws.components.Sprite;
 
-public class SpriteRenderSystem extends BaseEntitySystem {
+public class SpriteRenderSystem extends EntitySystem {
 	ComponentMapper<Position> pm;
 	ComponentMapper<Sprite> sm;
 
@@ -40,7 +40,7 @@ public class SpriteRenderSystem extends BaseEntitySystem {
 	private Bag<AtlasRegion> regionsByEntity;
 	private List<Entity> sortedEntities;
 
-
+	@SuppressWarnings("unchecked")
 	public SpriteRenderSystem(OrthographicCamera camera, SpriteBatch batch) {
 		super(Aspect.all(Position.class, Sprite.class));
 		this.camera = camera;

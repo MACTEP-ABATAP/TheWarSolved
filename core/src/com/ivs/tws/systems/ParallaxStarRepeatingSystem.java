@@ -15,7 +15,7 @@ public class ParallaxStarRepeatingSystem extends IntervalEntityProcessingSystem 
 
 	ComponentMapper<Position> pm;
 
-
+	@SuppressWarnings("unchecked")
     public ParallaxStarRepeatingSystem() {
 		super(Aspect.all(ParallaxStar.class, Position.class), 1);
 	}
