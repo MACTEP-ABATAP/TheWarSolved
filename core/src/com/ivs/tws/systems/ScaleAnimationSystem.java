@@ -1,20 +1,19 @@
 package com.ivs.tws.systems;
 
-
+;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-
+import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
-import com.artemis.systems.IteratingSystem;
 import com.ivs.tws.components.ScaleAnimation;
 import com.ivs.tws.components.Sprite;
 
-public class ScaleAnimationSystem extends IteratingSystem {
-
-	ComponentMapper<ScaleAnimation> sa;
-	ComponentMapper<Sprite> sm;
+@Wire
+public class ScaleAnimationSystem extends EntityProcessingSystem {
+	ComponentMapper<ScaleAnimation> scaleAnimationMapper;
+	ComponentMapper<Sprite> spriteMapper;
 
 	@SuppressWarnings("unchecked")
     public ScaleAnimationSystem() {
@@ -22,10 +21,10 @@ public class ScaleAnimationSystem extends IteratingSystem {
 	}
 
 	@Override
-	protected void process(int e) {
-		ScaleAnimation scaleAnimation = sa.get(e);
+	protected void process(Entity e) {
+		ScaleAnimation scaleAnimation = scaleAnimationMapper.get(e);
 		if (scaleAnimation.active) {
-			Sprite sprite = sm.get(e);
+			Sprite sprite = spriteMapper.get(e);
 
 			sprite.scaleX += scaleAnimation.speed * world.delta;
 			sprite.scaleY = sprite.scaleX;

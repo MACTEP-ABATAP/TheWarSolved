@@ -1,10 +1,11 @@
 package com.ivs.tws.core;
 
+
+
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.managers.GroupManager;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -25,33 +26,23 @@ import com.ivs.tws.systems.ScaleAnimationSystem;
 import com.ivs.tws.systems.SoundEffectSystem;
 import com.ivs.tws.systems.SpriteRenderSystem;
 
-
 public class GameScreen implements Screen {
 
-	private Game game;
 	private World world;
 	private OrthographicCamera camera;
 
 	private SpriteRenderSystem spriteRenderSystem;
 
-
 	private SpriteBatch batch;
 	private Rectangle viewport;
 	private PlayerInputSystem playerInputSystem;
 
-
-
-
-
-
 	private static final float ASPECT_RATIO = (float) Constants.FRAME_WIDTH / (float) Constants.FRAME_HEIGHT;
 
-
-
-	public GameScreen(Game game) {
+	public GameScreen() {
 		this.batch = new SpriteBatch();
-		this.game = game;
 		this.camera = new OrthographicCamera(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+
 		world = new World();
 		WorldConfiguration config = new WorldConfigurationBuilder()
 				.with(
@@ -66,13 +57,12 @@ public class GameScreen implements Screen {
 						new ColorAnimationSystem(),
 						new ScaleAnimationSystem(),
 						new RemoveOffscreenShipsSystem(),
-						this.spriteRenderSystem = (new SpriteRenderSystem(camera, batch))
-
-
-						).build();
+						this.spriteRenderSystem = (new SpriteRenderSystem(camera, batch))).build();
 		world.getRegistered(GroupManager.class);
 		World world = new World(config);
 		EntityFactory.createPlayer(world, 0, 0).isActive();
+
+
 
 
 
@@ -89,9 +79,6 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		spriteRenderSystem.process();
-		playerInputSystem.process();
-
 		camera.update();
 
 		Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
@@ -106,19 +93,19 @@ public class GameScreen implements Screen {
 		}
 		world.process();
 
-
-
+		spriteRenderSystem.process();
 
 	}
 
 	@Override
 	public void resize(int width, int height) {
+		// calculate new viewport
 		float aspectRatio = (float) width / (float) height;
 		float scale = 1f;
 		Vector2 crop = new Vector2(0f, 0f);
 
 		if (aspectRatio > ASPECT_RATIO) {
-			scale = (float) height / (float) Constants.FRAME_HEIGHT;
+			scale = (float) height / (float)Constants.FRAME_HEIGHT;
 			crop.x = (width - Constants.FRAME_WIDTH * scale) / 2f;
 		} else if (aspectRatio < ASPECT_RATIO) {
 			scale = (float) width / (float) Constants.FRAME_WIDTH;
@@ -152,6 +139,5 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 	}
-
 
 }

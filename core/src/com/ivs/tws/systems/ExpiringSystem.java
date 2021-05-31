@@ -3,16 +3,15 @@ package com.ivs.tws.systems;
 
 
 import com.artemis.Aspect;
-
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-
+import com.artemis.annotations.Wire;
 import com.artemis.systems.DelayedEntityProcessingSystem;
 import com.ivs.tws.components.Expires;
 
+@Wire
 public class ExpiringSystem extends DelayedEntityProcessingSystem {
-
-	ComponentMapper<Expires> em;
+	private ComponentMapper<Expires> expirationMapper;
 
 	@SuppressWarnings("unchecked")
     public ExpiringSystem() {
@@ -21,7 +20,7 @@ public class ExpiringSystem extends DelayedEntityProcessingSystem {
 	
 	@Override
 	protected void processDelta(Entity e, float accumulatedDelta) {
-		Expires expires = em.get(e);
+		Expires expires = expirationMapper.get(e);
 		expires.delay -= accumulatedDelta;
 	}
 
@@ -32,7 +31,7 @@ public class ExpiringSystem extends DelayedEntityProcessingSystem {
 	
 	@Override
 	protected float getRemainingDelay(Entity e) {
-		Expires expires = em.get(e);
+		Expires expires = expirationMapper.get(e);
 		return expires.delay;
 	}
 }
