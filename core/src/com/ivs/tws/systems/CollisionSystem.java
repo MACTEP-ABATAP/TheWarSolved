@@ -1,38 +1,33 @@
 package com.ivs.tws.systems;
 
+
+
 import com.artemis.Aspect;
-import com.artemis.BaseEntitySystem;
-import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-
-import com.artemis.annotations.All;
+import com.artemis.annotations.Wire;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
+import com.badlogic.gdx.math.Vector2;
 import com.ivs.tws.components.Bounds;
-import com.ivs.tws.components.Expires;
 import com.ivs.tws.components.Health;
 import com.ivs.tws.components.Position;
-import com.ivs.tws.components.Sprite;
 import com.ivs.tws.core.Constants;
 import com.ivs.tws.core.EntityFactory;
 
-import org.w3c.dom.css.Rect;
-
-
-public class CollisionSystem extends BaseEntitySystem {
-	 ComponentMapper<Position> pm;
-	 ComponentMapper<Bounds> bm;
-	 ComponentMapper<Health> hm;
-	 ComponentMapper<Expires> ex;
+@Wire
+public class CollisionSystem extends EntitySystem {
+	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Bounds> boundsMapper;
+	private ComponentMapper<Health> healthMapper;
 	
 	private Bag<CollisionPair> collisionPairs;
-
+	
+	@SuppressWarnings("unchecked")
 	public CollisionSystem() {
 		super(Aspect.all(Position.class, Bounds.class));
-
 	}
 
 	@Override
@@ -43,24 +38,23 @@ public class CollisionSystem extends BaseEntitySystem {
 	@Override
 	public void initialize() {
 		collisionPairs = new Bag<CollisionPair>();
-		
+
 		collisionPairs.add(new CollisionPair(Constants.Groups.PLAYER_BULLETS, Constants.Groups.ENEMY_SHIPS, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity bullet, Entity ship) {
-				Position bp = pm.get(bullet);
-				EntityFactory.createSmallExplosion(world, bp.x, bp.y).isActive();
-				for(int i = 0; 4 > i; i++) EntityFactory.createParticle(world, bp.x, bp.y).isActive();
-				
-
-			    bullet.deleteFromWorld();
-				Expires bulletExpires = ex.get(bullet);
-				if(bulletExpires != null) {
-				    bulletExpires.delay = -1;
-				}
+				Position bp = positionMapper.get(bullet);
+				EntityFactory.createSmallExplosion(world, bp.x, bp.y);
+				for(int i = 0; 4 > i; i++) EntityFactory.createParticle(world, bp.x, bp.y);
 
 
-				Health health = hm.get(ship);
-				Position position = pm.get(ship);
+				bullet.deleteFromWorld();
+				//Expires bulletExpires = ex.get(bullet);
+				//if(bulletExpires != null) {
+				//	bulletExpires.delay = -1;
+				//}
+
+				Health health = healthMapper.get(ship);
+				Position position = positionMapper.get(ship);
 				health.health -= 1;
 				if(health.health < 0) {
 					health.health = 0;
@@ -71,8 +65,8 @@ public class CollisionSystem extends BaseEntitySystem {
 		}));
 	}
 	
-	
-	public void processEntities(ImmutableBag<Entity> entities) {
+
+	protected void processEntities(ImmutableBag<Entity> entities) {
 		for(int i = 0; collisionPairs.size() > i; i++) {
 			collisionPairs.get(i).checkForCollisions();
 		}
@@ -91,8 +85,8 @@ public class CollisionSystem extends BaseEntitySystem {
 		private CollisionHandler handler;
 
 		public CollisionPair(String group1, String group2, CollisionHandler handler) {
-			groupEntitiesA = world.getSystem(GroupManager.class).getEntities(group1);
-			groupEntitiesB = world.getSystem(GroupManager.class).getEntities(group2);
+			groupEntitiesA = world.getRegistered(GroupManager.class).getEntities(group1);
+			groupEntitiesB = world.getRegistered(GroupManager.class).getEntities(group2);
 			this.handler = handler;
 		}
 
@@ -109,27 +103,24 @@ public class CollisionSystem extends BaseEntitySystem {
 		}
 		
 		private boolean collisionExists(Entity e1, Entity e2) {
-		    
-		    if(e1 == null || e2 == null) {
-		        return false;
-		    }
-		    
-
-			Position p1 = pm.get(e1);
-			Position p2 = pm.get(e2);
 			
-			Bounds b1 = bm.get(e1);
-			Bounds b2 = bm.get(e2);
-
-
+			if(e1 == null || e2 == null) {
+				return false;
+			}
 			
-			return Point.distance(p1.x, p1.y, p2.x, p2.y)-b1.radius < b2.radius;
+			//NPE!!!
+			Position p1 = positionMapper.get(e1);
+			Position p2 = positionMapper.get(e2);
+			
+			Bounds b1 = boundsMapper.get(e1);
+			Bounds b2 = boundsMapper.get(e2);
+
+			return (Vector2.len(p1.x - p2.x, p1.y - p2.y) - b1.radius) < b2.radius;
 		}
 	}
 	
 	private interface CollisionHandler {
 		void handleCollision(Entity a, Entity b);
 	}
-
 
 }

@@ -9,10 +9,10 @@ import java.util.List;
 
 
 import com.artemis.Aspect;
-import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
+import com.artemis.annotations.Wire;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
@@ -27,9 +27,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.ivs.tws.components.Position;
 import com.ivs.tws.components.Sprite;
 
-public class SpriteRenderSystem extends BaseEntitySystem {
-	ComponentMapper<Position> pm;
-	ComponentMapper<Sprite> sm;
+@Wire
+public class SpriteRenderSystem extends EntitySystem {
+	ComponentMapper<Position> positionMapper;
+	ComponentMapper<Sprite> spriteMapper;
 
 	private HashMap<String, AtlasRegion> regions;
 	private TextureAtlas textureAtlas;
@@ -40,7 +41,7 @@ public class SpriteRenderSystem extends BaseEntitySystem {
 	private Bag<AtlasRegion> regionsByEntity;
 	private List<Entity> sortedEntities;
 
-
+	@SuppressWarnings("unchecked")
 	public SpriteRenderSystem(OrthographicCamera camera, SpriteBatch batch) {
 		super(Aspect.all(Position.class, Sprite.class));
 		this.camera = camera;
@@ -75,7 +76,9 @@ public class SpriteRenderSystem extends BaseEntitySystem {
 
 	@Override
 	protected void processSystem() {
-
+		for (int i = 0; sortedEntities.size() > i; i++) {
+			process(sortedEntities.get(i));
+		}
 	}
 
 	@Override
@@ -91,9 +94,9 @@ public class SpriteRenderSystem extends BaseEntitySystem {
 	}
 
 	protected void process(Entity e) {
-		if (pm.has(e)) {
-			Position position = pm.get(e);
-			Sprite sprite = sm.get(e);
+		if (positionMapper.has(e)) {
+			Position position = positionMapper.get(e);
+			Sprite sprite = spriteMapper.get(e);
 
 			AtlasRegion spriteRegion = regionsByEntity.get(e.getId());
 			batch.setColor(sprite.r, sprite.g, sprite.b, sprite.a);
@@ -101,17 +104,19 @@ public class SpriteRenderSystem extends BaseEntitySystem {
 			float posX = position.x - (spriteRegion.getRegionWidth() / 2 * sprite.scaleX);
 			float posY = position.y - (spriteRegion.getRegionHeight() / 2 * sprite.scaleX);
 			batch.draw(spriteRegion, posX, posY, 0, 0, spriteRegion.getRegionWidth(), spriteRegion.getRegionHeight(), sprite.scaleX, sprite.scaleY, sprite.rotation);
-
+			// GdxUtils.drawCentered(batch, spriteRegion, position.x,
+			// position.y);
 		}
 	}
 
+	@Override
 	protected void end() {
 		batch.end();
 	}
 
-
+	@Override
 	public void inserted(Entity e) {
-		Sprite sprite = sm.get(e);
+		Sprite sprite = spriteMapper.get(e);
 		regionsByEntity.set(e.getId(), regions.get(sprite.name));
 
 		sortedEntities.add(e);
@@ -119,14 +124,14 @@ public class SpriteRenderSystem extends BaseEntitySystem {
 		Collections.sort(sortedEntities, new Comparator<Entity>() {
 			@Override
 			public int compare(Entity e1, Entity e2) {
-				Sprite s1 = sm.get(e1);
-				Sprite s2 = sm.get(e2);
+				Sprite s1 = spriteMapper.get(e1);
+				Sprite s2 = spriteMapper.get(e2);
 				return s1.layer.compareTo(s2.layer);
 			}
 		});
 	}
 
-
+	@Override
 	public void removed(Entity e) {
 		regionsByEntity.set(e.getId(), null);
 		sortedEntities.remove(e);

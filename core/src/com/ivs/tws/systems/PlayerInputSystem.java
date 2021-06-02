@@ -5,34 +5,27 @@ package com.ivs.tws.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-
-import com.artemis.World;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
-
-import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.ivs.tws.components.Player;
 import com.ivs.tws.components.Position;
 import com.ivs.tws.components.Velocity;
 import com.ivs.tws.core.EntityFactory;
 
-public class PlayerInputSystem extends IteratingSystem implements InputProcessor {
-	private static final float HorizontalThrusters = 300;
-	private static final float HorizontalMaxSpeed = 300;
-	private static final float VerticalThrusters = 200;
-	private static final float VerticalMaxSpeed = 200;
+@Wire
+public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
 	private static final float FireRate = 0.1f;
 	
-	ComponentMapper<Position> pm;
-	ComponentMapper<Velocity> vm;
+	private ComponentMapper<Position> positionMapper;
 	
-	private boolean up, down, left, right;
 	private boolean shoot;
 	private float timeToFire;
 	
@@ -41,7 +34,9 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 	private Vector3 mouseVector;
 	private Rectangle viewport;
 	
-
+	private Vector2 tmp = new Vector2();
+	
+	@SuppressWarnings("unchecked")
     public PlayerInputSystem(OrthographicCamera camera, Rectangle viewport) {
 		super(Aspect.all(Position.class, Velocity.class, Player.class));
 		this.camera = camera;
@@ -55,9 +50,8 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 	}
 
 	@Override
-	protected void process(int e) {
-		Position position = pm.get(e);
-		Velocity velocity = vm.get(e);
+	protected void process(Entity e) {
+		Position position = positionMapper.get(e);
 		
 		mouseVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		camera.unproject(mouseVector, viewport.getX(), viewport.getY(), viewport.getWidth(), viewport.getHeight());
@@ -65,28 +59,14 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 		destinationX = mouseVector.x;
 		destinationY = mouseVector.y;
 		
-		float angleInRadians = Utils.angleInRadians(position.x, position.y, destinationX, destinationY);
+		tmp.set(position.x, position.y).sub(destinationX, destinationY);
+		float angleInRadians = tmp.angleRad();
 		
-		position.x += Math.cos(angleInRadians) * 500f * world.getDelta();
-		position.y += Math.sin(angleInRadians) * 500f * world.getDelta();
+		position.x += MathUtils.cos(angleInRadians) * 500f * world.delta;
+		position.y += MathUtils.sin(angleInRadians) * 500f * world.delta;
 		
 		position.x = mouseVector.x;
 		position.y = mouseVector.y;
-		
-
-		if(up) {
-			velocity.vectorY = MathUtils.clamp(velocity.vectorY+(world.getDelta()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
-		}
-		if(down) {
-			velocity.vectorY = MathUtils.clamp(velocity.vectorY-(world.getDelta()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
-		}
-		
-		if(left) {
-			velocity.vectorX = MathUtils.clamp(velocity.vectorX-(world.getDelta()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
-		}
-		if(right) {
-			velocity.vectorX = MathUtils.clamp(velocity.vectorX+(world.getDelta()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
-		}
 		
 		if(shoot) {
 			if(timeToFire <= 0) {
@@ -103,40 +83,13 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 		}
 	}
 
-
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Buttons.FORWARD) {
-			left = true;
-		}
-		else if(keycode == Input.Buttons.RIGHT) {
-			right = true;
-		}
-		else if(keycode == Input.Buttons.LEFT) {
-			up = true;
-		}
-		else if(keycode == Input.Buttons.BACK) {
-			down = true;
-		}
-		
 		return true;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(keycode == Input.Buttons.FORWARD) {
-			left = false;
-		}
-		else if(keycode == Input.Buttons.RIGHT) {
-			right = false;
-		}
-		else if(keycode == Input.Buttons.LEFT) {
-			up = false;
-		}
-		else if(keycode == Input.Buttons.BACK) {
-			down = false;
-		}
-		
 		return true;
 	}
 
@@ -167,9 +120,7 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 	}
 
 
-	public boolean scrolled(int amount) {
-		return false;
-	}
+
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {

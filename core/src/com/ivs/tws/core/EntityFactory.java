@@ -1,8 +1,7 @@
 package com.ivs.tws.core;
 
 
-import com.artemis.ComponentManager;
-import com.artemis.ComponentMapper;
+
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
@@ -18,10 +17,12 @@ import com.ivs.tws.components.ScaleAnimation;
 import com.ivs.tws.components.SoundEffect;
 import com.ivs.tws.components.Sprite;
 import com.ivs.tws.components.Velocity;
+import com.ivs.tws.core.Constants;
+
+import static com.ivs.tws.components.SoundEffect.EFFECT.PEW;
 
 public class EntityFactory {
-
-
+	
 	public static Entity createPlayer(World world, float x, float y) {
 		Entity e = world.createEntity();
 		
@@ -80,7 +81,7 @@ public class EntityFactory {
 		e.edit().add(expires);
 		
 		SoundEffect sf = new SoundEffect();
-		sf.effect = SoundEffect.EFFECT.PEW;
+		sf.effect = PEW;
 		e.edit().add(sf);
 		
 		world.getRegistered(GroupManager.class).add(e, Constants.Groups.PLAYER_BULLETS);
@@ -117,7 +118,7 @@ public class EntityFactory {
 		h.health = h.maximumHealth = health;
 		e.edit().add(h);
 		
-		world.getRegistered(GroupManager.class).add(e, Constants.Groups.ENEMY_SHIPS);
+		//world.getRegistered(GroupManager.class).add(e, Constants.Groups.ENEMY_SHIPS);
 		
 		return e;
 	}
