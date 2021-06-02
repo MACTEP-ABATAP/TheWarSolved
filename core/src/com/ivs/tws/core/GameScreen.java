@@ -42,13 +42,14 @@ public class GameScreen implements Screen {
 	public GameScreen() {
 		this.batch = new SpriteBatch();
 		this.camera = new OrthographicCamera(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+		;
 
 		world = new World();
 		WorldConfiguration config = new WorldConfigurationBuilder()
 				.with(
 						new GroupManager(),
 						new MovementSystem(),
-						new PlayerInputSystem(camera, viewport),
+						this.playerInputSystem = new PlayerInputSystem(camera, viewport),
 						new SoundEffectSystem(),
 						new CollisionSystem(),
 						new ExpiringSystem(),

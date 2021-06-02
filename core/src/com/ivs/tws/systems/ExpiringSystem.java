@@ -9,6 +9,8 @@ import com.artemis.annotations.Wire;
 import com.artemis.systems.DelayedEntityProcessingSystem;
 import com.ivs.tws.components.Expires;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 @Wire
 public class ExpiringSystem extends DelayedEntityProcessingSystem {
 	private ComponentMapper<Expires> expirationMapper;

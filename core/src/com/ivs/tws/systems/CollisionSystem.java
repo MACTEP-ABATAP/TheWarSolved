@@ -38,17 +38,20 @@ public class CollisionSystem extends EntitySystem {
 	@Override
 	public void initialize() {
 		collisionPairs = new Bag<CollisionPair>();
-		
+
 		collisionPairs.add(new CollisionPair(Constants.Groups.PLAYER_BULLETS, Constants.Groups.ENEMY_SHIPS, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity bullet, Entity ship) {
 				Position bp = positionMapper.get(bullet);
 				EntityFactory.createSmallExplosion(world, bp.x, bp.y);
 				for(int i = 0; 4 > i; i++) EntityFactory.createParticle(world, bp.x, bp.y);
-				
+
 
 				bullet.deleteFromWorld();
-
+				//Expires bulletExpires = ex.get(bullet);
+				//if(bulletExpires != null) {
+				//	bulletExpires.delay = -1;
+				//}
 
 				Health health = healthMapper.get(ship);
 				Position position = positionMapper.get(ship);
